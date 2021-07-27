@@ -1,3 +1,0 @@
-// by Ram - CMS. For detecting ad blocker
-var e=document.createElement('div'); e.id='zQyHLKpYGvgh'; e.style.display='none'; document.body.appendChild(e);
-

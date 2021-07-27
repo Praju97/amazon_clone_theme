@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!--CUSTOM CSS-->
     <link rel="stylesheet" href="css/custom.css">
-    <title>Sales and Inventory:Navbar</title>
+    <title>Sales and Inventory:Register</title>
   </head>
   <body>
       <!--NAVBAR STARTS-->
@@ -101,7 +101,7 @@
                     </a>
                     <div class="dropdown-menu px-3" aria-labelledby="userAccount">
                         <div class="d-flex flex-column justify-content-center">
-                        <a href="login.html" class="btn btn-warning w-70 btn-sm font-weight-bold">Sign in</a>
+                        <a href="#" class="btn btn-warning w-70 btn-sm font-weight-bold">Sign in</a>
                         <p>New Customer? <a href="#">Register Here</a></p>
                     </div>
                 </div>
@@ -124,7 +124,57 @@
       </nav>
       <!--NAVABR ENDS-->
 
+      <!--Register FORM CARD STARTS-->
+      <div class="container mb-5">
+        <div class="card mx-auto mt-5  pb-3shadow p-3 mb-5 bg-body rounded" style="width: 30rem;">
+            
+            <div class="card-body">
+              <h3 class="card-title font-weight-bold">Register</h3>
+              <!--Register FORM STARTS-->
+              <form novalidate>
+                <div class="mb-3">
+                    <label for="userName" class="form-label">User Name: </label>
+                    <input type="text" name="name" class="form-control" id="userName" placeholder="username" >
+                  </div>
 
+                <div class="mb-3">
+                  <label for="userEmail" class="form-label">Email address: </label>
+                  <input type="email" name="email" class="form-control" id="userEmail"placeholder="abc@abc.com" aria-describedby="emailHelp">
+                  <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <div class="mb-3">
+                  <label for="userPassword1" class="form-label">Password: </label>
+                  <input type="password" class="form-control" name="password" placeholder="******" id="userPassword1" aria-describedby="passwordHelp">
+                  <div id="passwordHelp" class="form-text">Password must be atleast 6 characters.</div>
+                </div>
+              
+                <div class="mb-3">
+                    <label for="userPassword2" class="form-label">Confirm Password: </label>
+                    <input type="password" class="form-control" name="password2" placeholder="******" id="userPassword2" aria-describedby="passwordHelp2">
+                    <div id="passwordHelp2" class="form-text">Password must match .</div>
+                  </div>
+
+                <button type="submit" class="btn btn-warning w-100 shadow rounded">Register</button>
+              </form> <!--Register FROM ENDS-->
+              
+              <!-- OR separator -->
+              <hr mt-5>
+
+              <!--Create account button-->
+              <p class="text-center text-muted">Already have an account? <a href="login.html">Sign in <i class="fas fa-caret-right"></i> </a>  </p> 
+                  <a href="#" class="btn btn-outline-danger btn-sm w-100 mt-3">
+                <i class="fab fa-google"></i> Sign in Google
+                </a>
+
+              <a href="#" class="btn btn-outline-primary btn-sm w-100 mt-3">
+                <i class="fab fa-facebook-square"></i> Sign in Facebook
+                </a>
+
+
+            </div>
+          </div> <!-- Register FORM CARD ENDS-->
+
+      </div>
 
 
     <!-- Optional JavaScript; choose one of the two! -->
