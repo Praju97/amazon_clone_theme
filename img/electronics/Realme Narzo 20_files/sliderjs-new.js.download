@@ -1,0 +1,951 @@
+
+//Developed by Ranganath
+times = window.times || {};
+times.mobile = window.times.mobile || {};
+times.mobile.photostory = {
+    //activeGallery: $('#container-slider-' + msid),
+    sliderItemClass: 'slide-content',
+    counterId: 'counterCurrent',
+    classVisisble: 'visible-on-screen',
+    loaderNextId: 'loader_next',
+    counterTotal: 'CounterTotal',
+    inprocess: false,
+    showhideajax: '',
+    galleryinprocess: false,
+    makeVisible: function () {
+        var that = this;
+        // Loop over each container, and check if it's visible.
+        $('.' + that.sliderItemClass, $('.psgallery')).each(function () {
+            // Is this element visible onscreen?
+            //var visible = that.inView(this, true, 0)
+            var visible = $(this).isOnScreen(0.5, 0.5);
+            // Set the visible status into the span.
+            if (visible != undefined && visible === true) {
+                $(this).addClass(that.classVisisble);
+            } else {
+                $(this).removeClass(that.classVisisble);
+            }
+        });
+
+        var counter = $('.' + that.classVisisble + ':last').data('imgcnt');
+        $('#' + that.counterId).html(counter);
+    },
+    init: function () {
+        // Check visible.
+        this.makeVisible();
+        //this.inviewfunc();
+        // visible element /
+        var elem = $('.' + this.classVisisble + ':last');
+        if (elem.length <= 0) {
+            return false;
+            var elem = $('.' + this.sliderItemClass + ':last');
+        } else {
+            $('#gallery-title').html($(elem).parent('.psgallery').attr('data-title'));
+            $('#' + this.counterTotal).html($(elem).parent('.psgallery').attr('data-totalcount'));
+        }
+        // Set msid if active element;
+        msid = $(elem).parent('.psgallery').attr('data-msid');
+        this.activeGallery = $('#container-slider-' + msid);
+        this.checkAndLoadNextPage(elem);
+        this.fireSEOGA(elem);
+    },
+    // check if first time elem container is visible in viewpoart then load next article also
+    checkAndLoadNextPage: function (elem) {
+        that = this;
+        if (that.inprocess) {
+            return false;
+        }
+
+        var position = that.activeGallery.position();
+
+        var ig = that.activeGallery.find('.slide-content').prevAll().not('.slide-content').length;
+        var i = $(elem).index();
+        var l = that.activeGallery.find('.slide-content:last').data('imgcnt');
+        // console.log(that.activeGallery.find('.slide-content:last').data('imgcnt'));
+        // console.log(l);
+        var secondLast = ((l - (i + ig)) <= 2) ? true : false;
+
+        if ($(window).scrollTop() + $(window).height() > $(document).height() - 300 || (secondLast)) {
+            that.inprocess = true;
+            that.socialShareHandler();
+            var nextpage = $('#' + that.loaderNextId).attr('data-nextpage');
+            var gallery_msid = that.activeGallery.attr('data-msid');
+            var data_next_album = that.activeGallery.attr('data-next-album');
+
+            var cat_id = that.activeGallery.attr('data-catid');
+            var totalcount = that.activeGallery.attr('data-totalcount');
+            var photos_add_attr = $("#photos_add_attr").val();
+
+            var photosInfiniteAd = parseInt($("#photosInfiniteAd").val())+parseInt(1);
+
+            //var add_attr = 0;
+            if (photos_add_attr == 0)
+            {
+                var add_attr = 1;
+            }
+            else if (photos_add_attr == 1)
+            {
+                var add_attr = 2;
+            }
+            else if (photos_add_attr == 2)
+            {
+                var add_attr = 0;
+            }
+
+
+            curntpg = that.activeGallery.data('curpg');
+
+
+            if ((curntpg * 5) >= totalcount) {
+
+                $('#loader_next').show();
+                // Load gallery 
+                that.loadGallery(cat_id, add_attr,photosInfiniteAd);
+                return false;
+            }
+
+            $('#' + that.loaderNextId).show();
+
+            curntpg++;
+
+            var url = '/scripts/gallery/ajax-common.php?func=append-slideshow-mobile-new&slide_id=' + curr_id + '&category_id=' + $(elem).attr('data-cid') + '&entity_id=' + $(elem).attr('data-pid') + '&curpg=' + curntpg + '&totalCount=' + totalcount + '&data_next_album=' + data_next_album + '&add_attr=' + add_attr+'&photosInfiniteAd='+photosInfiniteAd;
+
+            $.ajax({
+                url: url,
+                success: function (data) {
+
+                    pid = $(data).filter(':first').data('pid');
+                    var pid123 = $(data).filter(':last').data('slide-id');
+                    var posimg = $(data).filter(':first').data('imgcnt');
+                    $('#container-slider-' + pid).append(data);
+                    curpg = $('#container-slider-' + pid).data('curpg');
+                    $('#container-slider-' + pid).data('curpg', ++curpg);
+                    that.activeGallery.data('curpg', curntpg++);
+                    if (times.mobile.photostory.showhideajax == 'hide') {
+                        $('.pssocialbtn,.psstory_caption').fadeOut();
+                    }
+                    else if (times.mobile.photostory.showhideajax == 'show') {
+                        $('.pssocialbtn,.psstory_caption').fadeIn();
+                    }
+                    $('#' + that.loaderNextId).hide();
+                    that.inprocess = false;
+                    times.mobile.photostory.readMore();
+                    times.mobile.lazyLoad(window, document).start();
+                    $("#photosInfiniteAd").val(photosInfiniteAd);
+
+                    if(oi_inhouse_flag==1){
+                        divId = $(data).find('.inhouse-content').attr('id');
+                        that.backupAdsInhouse(divId);//Div id should be dynamic where the ad should display
+                    }
+
+                }
+            });
+        }
+    },
+    socialShareHandler: function () {
+        var that = this;
+        $(".pssocialbtn .opensocialpopup").click(function () {
+            $(this).parents('.slide-content').addClass('show-social');
+        });
+        $(".pssocialbtn .closesocialpopup").click(function () {
+            $(this).parents('.slide-content').removeClass('show-social');
+        });
+
+        $(".photos-facebook").click(function () {
+            var social_url = (window.location.protocol == "https:" ? "https://" : "http://")+'www.gizbot.com'+$(this).attr('data-share-url');
+            var fb_url = "https://www.facebook.com/sharer/sharer.php?u=" + social_url + "&display=popup&ref=plugin";
+            window.open(fb_url, 'Share on Facebook', 'menubar=no,toolbar=no,resizable=no,scrollbars=no,height=400,width=600');
+        });
+        
+
+        $(".photos-twitter").click(function () {
+            var social_url = (window.location.protocol == "https:" ? "https://" : "http://") + 'www.gizbot.com' + $(this).attr('data-share-url');
+            var social_title = $(this).attr('data-share-title');
+            social_title = social_title.replace(/[^\w\s]/gi, '');
+            var twitter_data_via = 'gizbotcom';
+            var tweet_url = "https://twitter.com/share?url=" + social_url + "&via=" + twitter_data_via + "&text=" + encodeURIComponent(social_title) + "&related=&hashtags=";
+            window.open(tweet_url, 'Share on Twitter', 'menubar=no,toolbar=no,resizable=no,scrollbars=no,height=400,width=600');
+        });
+
+        $(".photos-google-plus").click(function () {
+            var social_url = (window.location.protocol == "https:" ? "https://" : "http://") + 'www.gizbot.com' + $(this).attr('data-share-url');
+            var gp_url = "https://plus.google.com/share?url=" + social_url;
+            window.open(gp_url, 'Share on gPlus', 'menubar=no,toolbar=no,resizable=no,scrollbars=no,height=400,width=600');
+        });
+
+        $(".photos-whatsapp").click(function () {
+            var social_url = (window.location.protocol == "https:" ? "https://" : "http://") + 'www.gizbot.com' + $(this).attr('data-share-url');
+            var social_title = $(this).attr('data-share-title');
+            social_title = social_title.replace(/[^\w\s]/gi, '');
+            whatsapp_social_url = encodeURIComponent(social_url);
+            window.location.href = "whatsapp://send?text=" + encodeURIComponent(social_title) + ' ' + whatsapp_social_url;
+        });
+
+        $(".gadget-finder-galspecs .expand").click(function () {
+            $(this).parent().addClass('open');
+        });
+        $(".gadget-finder-galspecs .collapse").click(function () {
+            $(this).parent().removeClass('open');
+        });
+
+    },
+    loadGallery: function (cat_id, photos_add_attr,photosInfiniteAd) {
+
+        var that = this;
+        var next_mid = that.activeGallery.attr('data-nextmsid');
+        var next_catid = that.activeGallery.attr('data-nextcatid')
+        var old_entity_id = that.activeGallery.attr('data-msid');
+        var photosInfiniteAd = parseInt($("#photosInfiniteAd").val())+parseInt(1);
+
+        var entity_Ids = ($('.psgallery[data-msid]')).map(function () {
+            return this.id.replace(/container-slider-/g, "");
+        }).get().join(",");
+
+        if (next_mid === undefined || next_mid == "") {
+            that.inprocess = false;
+            $("#loader_next").hide();
+            return false;
+        }
+        //var url = '/ajax-common.php?func=next-slideshow-mobile-new&category_id='+cat_id + '&entity_id='+ next_mid+'&old_entity='+old_entity_id+'&entity_Ids='+entity_Ids+'&add_attr='+photos_add_attr;
+        var url = '/scripts/gallery/ajax-common.php?func=next-slideshow-mobile-new&next_category_id=' + next_catid + '&next_entity_id=' + next_mid + '&old_entity=' + old_entity_id + '&entity_Ids=' + entity_Ids + '&add_attr=' + photos_add_attr+'&photosInfiniteAd='+photosInfiniteAd;
+        // element already exist stop ajax call.
+        if ($('.psgallery[data-prev-msid="' + old_entity_id + '"]').length > 0) {
+            console.log('msid already exist');
+            that.inprocess = false;
+            return false;
+        }
+
+        $.ajax({
+            url: url,
+            success: function (data) {
+                $(data).insertAfter($('.psgallery:last'));
+                that.inprocess = false;
+                $("#photos_add_attr").val(photos_add_attr);
+                $(".gadget-finder-galspecs .expand").click(function () {
+                    $(this).parent().addClass('open');
+                });
+                $(".gadget-finder-galspecs .collapse").click(function () {
+                    $(this).parent().removeClass('open');
+                });
+                times.mobile.photostory.readMore();
+                times.mobile.lazyLoad(window, document).start();
+                $("#photosInfiniteAd").val(photosInfiniteAd);
+
+                if(oi_inhouse_flag==1){
+                        divId = $(data).find('.inhouse-content').attr('id');
+                        that.backupAdsInhouse(divId);//Div id should be dynamic where the ad should display
+                    }
+            }
+        });
+    },
+    backupAdsInhouse:function(divId)
+    {
+         if(document.getElementById(divId)){
+        var zone_id     = document.getElementById(divId).getAttribute('data-zoneid');
+        if(zone_id!=null && zone_id !='' && zone_id != undefined){
+            var revive_id   = document.getElementById(divId).getAttribute('data-reviveid');
+            var jsonzone = JSON.parse(zone_id);
+            var jsonzone_id = jsonzone.inhouse;
+            var jsonrevive = JSON.parse(revive_id);
+            var jsonrevive_id = jsonrevive.inhouse;
+            var ad_frame = document.createElement("iframe");
+            ad_frame.src = "https://rss.oneindia.com/common/inhouse-content-plugin.html?zoneid="+jsonzone_id+"&reviveid="+jsonrevive_id;
+            ad_frame.scrolling = "no";
+            ad_frame.width = "310px";
+            ad_frame.height = "260px";
+            ad_frame.style.border = "none";
+            var refnode = document.getElementById(divId);
+            document.getElementById(divId).innerHTML='';
+            document.getElementById(divId).style.display='block';
+            document.getElementById(divId).appendChild(ad_frame);
+        }
+        }
+    },
+    readMore: function () {
+
+        $(".psstory_caption .readmore").click(function () {
+            $(this).parents('.psstory_caption').addClass('fullht');
+            var storyheight = $('.pstorythumb').height() / 2;
+            $('.largedata').css("height", storyheight);
+            $(this).parent().parent().siblings('.psstory_caption_bg').css('display', 'block');
+        });
+
+        $(".psstory_caption .readless").click(function () {
+            $(this).parents('.psstory_caption').removeClass('fullht');
+            $('.largedata').css("height", 'auto');
+            $(this).parent().parent().siblings('.psstory_caption_bg').css('display', 'none');
+        });
+
+
+
+
+    },
+    fireSEOGA: function (elem) {
+        that = this;
+        elemid = $(elem).attr('data-slide-id');
+        var pageObj = {};
+        pageObj.title = $('.seo-meta seotitle', $(elem)).html();
+        pageObj.link = $('.seo-meta seourl', $(elem)).html();
+        pageObj.link = pageObj.link.replace(/\/\/+/g, '/');
+        oldUrl = location.href.replace(/([^:])(\/\/+)/g, '$1/');
+        $('title').html(pageObj.title);
+        try {
+            if (pageObj.link != oldUrl.replace(/^.*\/\/[^\/]+/, '')) {
+
+                //oldUrl = location.href;
+                window.history.replaceState({}, pageObj.title, pageObj.link);
+                oldUrl = window.location.href.replace("https://www.gizbot.com", "");
+                //triggerAnalytics
+                //var oneindia_ref_domain1 = that.readCookie("oneindia_ref_domain1");
+                if (oneindia_ref_domain1 != '' && oneindia_ref_domain1 != null)
+                {
+                    if (oneindia_ref_domain1 == 'hindi.oneindia.com')
+                    {
+                        ga('oneindiahi.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        ga('rosoneindia.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        
+                    }
+                    else if (oneindia_ref_domain1 == 'kannada.oneindia.com')
+                    {
+
+                        ga('oneindiakn.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        ga('rosoneindia.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        
+                    }
+                    else if (oneindia_ref_domain1 == 'telugu.oneindia.com')
+                    {
+
+                        ga('oneindiate.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        ga('rosoneindia.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        
+                    }
+                    else if (oneindia_ref_domain1 == 'tamil.oneindia.com')
+                    {
+
+                        ga('oneindiata.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        ga('rosoneindia.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+
+                       
+
+                    }
+                    else if (oneindia_ref_domain1 == 'malayalam.oneindia.com')
+                    {
+
+                        ga('oneindiaml.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        ga('rosoneindia.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                       
+                    }
+                    else if (oneindia_ref_domain1 == 'www.oneindia.com')
+                    {
+
+                        ga('oneindiaen.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        ga('rosoneindia.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        
+                    }
+                    else if (oneindia_ref_domain1 == 'gujarati.oneindia.com')
+                    {
+                        // ga('create', 'UA-110466-73', 'auto', {'name': 'oneindiagu'});
+                        //ga('create', 'UA-110466-47', 'auto', {'name': 'rosfilmibeat'}); 
+                        ga('oneindiagu.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        ga('rosoneindia.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        
+                    }
+                    else if (oneindia_ref_domain1 == 'bengali.oneindia.com')
+                    {
+                        // ga('create', 'UA-110466-55', 'auto', {'name': 'oneindiabn'});
+                        //  ga('create', 'UA-110466-47', 'auto', {'name': 'rosfilmibeat'}); 
+                        ga('oneindiabn.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        ga('rosoneindia.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        
+                    }
+                    else if (oneindia_ref_domain1 == 'hindi.gizbot.com')
+                    {
+                        // ga('create', 'UA-110466-98', 'auto');
+                        // ga('create', 'UA-110466-74', 'auto', {'name': 'rosgizbot'}); 
+                        ga('gizbothi.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        ga('rosgizbot.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        
+                    }
+                    else if (oneindia_ref_domain1 == 'kannada.gizbot.com')
+                    {
+                        // ga('create', 'UA-110466-96', 'auto');
+                        // ga('create', 'UA-110466-74', 'auto', {'name': 'rosgizbot'}); 
+                        ga('gizbotkn.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        ga('rosgizbot.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+
+                        
+                    }
+                    else if (oneindia_ref_domain1 == 'malayalam.gizbot.com')
+                    {
+                        // ga('create', 'UA-110466-97', 'auto');
+                        // ga('create', 'UA-110466-74', 'auto', {'name': 'rosgizbot'}); 
+                        ga('gizbotml.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        ga('rosgizbot.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        
+                    }
+                    else if (oneindia_ref_domain1 == 'tamil.gizbot.com')
+                    {
+                        // ga('create', 'UA-110466-94', 'auto');
+                        //  ga('create', 'UA-110466-74', 'auto', {'name': 'rosgizbot'}); 
+                        ga('gizbotta.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        ga('rosgizbot.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        
+                    }
+                    else if (oneindia_ref_domain1 == 'telugu.gizbot.com')
+                    {
+                        // ga('create', 'UA-110466-95', 'auto');
+                        // ga('create', 'UA-110466-74', 'auto', {'name': 'rosgizbot'}); 
+                        ga('gizbotte.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        ga('rosgizbot.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        
+                    }
+                    else
+                    {
+                        // ga('create', 'UA-110466-99', 'auto');
+                        // ga('create', 'UA-110466-74', 'auto', {'name': 'rosgizbot'}); 
+                        ga('gizboten.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        ga('rosgizbot.send',
+                        {
+                            hitType: 'pageview',
+                            page: oldUrl,
+                            title: pageObj.title,
+                            location: window.location.href
+                        }
+                        );
+                        
+                    }
+
+                }
+                else
+                {
+                    //ga('create', 'UA-110466-99', 'auto');
+                    // ga('create', 'UA-110466-74', 'auto', {'name': 'rosgizbot'}); 
+                    ga('gizboten.send',
+                    {
+                        hitType: 'pageview',
+                        page: oldUrl,
+                        title: pageObj.title,
+                        location: window.location.href
+                    }
+                    );
+                    ga('rosgizbot.send',
+                    {
+                        hitType: 'pageview',
+                        page: oldUrl,
+                        title: pageObj.title,
+                        location: window.location.href
+                    }
+                    );
+                    
+                }
+                /////////////////
+                newUrl = (window.location.protocol == "https:" ? "https://" : "http://") + 'www.gizbot.com' + pageObj.link;
+
+                //fire comscore Event for each slide.
+                that.fireComscoreEvent(newUrl);
+            }
+        } catch (e) {
+            // logger.log("Cannot replace state of URL");homevide
+        }
+    },
+    //reading cookie value
+    readCookie: function (name)
+    {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ')
+                c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0)
+                return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    },
+    // run this when you would fire an event
+    fireComscoreEvent: function (current_url)
+    {
+        var jcode = 'var _comscore = _comscore || []; var comscoreParams = { c1: "2", c2: "7732551", c3: "", c4: "' + current_url + '", c5: "", c6: "", c15: "" }; _comscore.push(comscoreParams); var s = document.createElement("script"), el = document.getElementsByTagName("script")[0]; s.async = true; s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js"; el.parentNode.insertBefore(s, el);';
+        setTimeout(jcode, 500);
+    },
+    // helper function.
+    getHistoryUrl: function (link) {
+        var protocol = document.location.protocol; //http:
+        var host = document.location.host; // domain
+        return protocol + '//' + host + link;
+    },
+};
+
+
+$.fn.isOnScreen = function (x, y) {
+
+    if (x == null || typeof x == 'undefined')
+        x = 1;
+    if (y == null || typeof y == 'undefined')
+        y = 1;
+
+    var win = $(window);
+
+    var viewport = {
+        top: win.scrollTop(),
+        left: win.scrollLeft()
+    };
+    viewport.right = viewport.left + window.innerWidth;
+    viewport.bottom = viewport.top + window.innerHeight;
+
+    var height = this.outerHeight();
+    var width = this.outerWidth();
+
+    if (!width || !height) {
+        return false;
+    }
+
+    var bounds = this.offset();
+    bounds.right = bounds.left + width;
+    bounds.bottom = bounds.top + height;
+
+    var visible = (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
+
+    if (!visible) {
+        return false;
+    }
+
+    var deltas = {
+        top: Math.min(1, (bounds.bottom - viewport.top) / height),
+        bottom: Math.min(1, (viewport.bottom - bounds.top) / height),
+        left: Math.min(1, (bounds.right - viewport.left) / width),
+        right: Math.min(1, (viewport.right - bounds.left) / width)
+    };
+
+    return (deltas.left * deltas.right) >= x && (deltas.top * deltas.bottom) >= y;
+
+};
+
+$(document).scroll(function (e) {
+    times.mobile.photostory.init();
+});
+
+
+$.fn.unveil = function (threshold, callback) {
+    var $w = $(window), th = threshold || 0, retina = window.devicePixelRatio > 1, attrib = retina ? "data-src-retina" : "data-src", images = this, loaded;
+    this.one("unveil", function () {
+        var source = this.getAttribute(attrib);
+        source = source || this.getAttribute("data-src");
+        if (source) {
+            this.setAttribute("src", source);
+            if (typeof callback === "function")
+                callback.call(this);
+            this.removeAttribute("data-src");//remove data-source attribute once you have the image
+        }
+    });
+    function unveil() {
+        var inview = images.filter(function () {
+            var $e = $(this), wt = $w.scrollTop(), wb = wt + $w.height(), et = $e.offset().top, eb = et + $e.height();
+            return eb >= wt - th && et <= wb + th;
+        });
+        loaded = inview.trigger("unveil");
+        images = images.not(loaded);
+    }
+
+    $w.scroll(unveil);
+    //$w.resize(unveil);
+    unveil();//loading the first image
+    return this;
+};
+times = window.times || {};
+times.cookie = window.times.cookie || {};
+times.cookie.set = function (name, value, day, path, domain, secure) {
+    //window.parent.times.cookie.set("geolocation","Noida",1,"/",".indiatimes.com","");
+    var data = {n: name, v: value, p: path, d: domain, s: secure};
+    times.mobile.utils.log(data);
+    value = value.toLowerCase();
+    times.mobile.geo.loc = value; //@todo do we need it
+    $(document).trigger('geoLocationSet', [value]);
+};
+times.mobile = $.extend({}, times.mobile, {constants: {pg: $('#pageName').val()},
+    utils: {
+        log: function (msg) {
+            if (location.host.indexOf('spmdev') != -1) {
+                console.log(msg);
+            }
+        }
+    },
+    lazyLoad: function (window, document) {
+        return{
+            start: function () {
+                $(document).ready(function (e) {
+                    var imgList = $('img[data-src]');
+                    if (imgList.length > 0) {
+                        imgList.unveil();
+                    } else {
+                        // times.mobile.utils.log('No more images to display');
+                    }
+                });
+            }
+        };
+    }
+
+})
+;
+
+
+$(document).ready(function (e) {
+    times.mobile.lazyLoad(window, document).start();
+    times.mobile.photostory.readMore();
+});
+
+$(document).on('click', '.pstorythumb', function () {
+    $('.psstory_caption_bg').hide();
+    $('.pssocialbtn,.psstory_caption').toggle();
+    if (times.mobile.photostory.showhideajax == 'show' || times.mobile.photostory.showhideajax == '') {
+        times.mobile.photostory.showhideajax = 'hide';
+    }
+    else {
+        times.mobile.photostory.showhideajax = 'show';
+    }
+
+});
+
+
+
+window.fbAsyncInit = function () {
+    FB.init({
+        appId: '1617662258447157',
+        autoLogAppEvents: true,
+        xfbml: true,
+        version: 'v2.10'
+    });
+    FB.AppEvents.logPageView();
+};
+
+(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {
+        return;
+    }
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+function shareOverrideOGMeta(overrideLink, overrideTitle, overrideDescription, overrideImage)
+{
+    console.log('func triggered');
+    FB.ui({
+        method: 'share_open_graph',
+        action_type: 'og.shares',
+        action_properties: JSON.stringify({
+            object: {
+                'og:url': overrideLink,
+                'og:title': overrideTitle,
+                'og:description': overrideDescription,
+                'og:image': overrideImage
+            }
+        })
+    },
+    function (response) {
+        console.log('got response');
+        // Action after response
+    });
+}
+
+function shareOriginal()
+{
+    FB.ui({
+        method: 'share',
+        href: window.location.href
+    },
+    function (response) {
+        // Action after response
+    });
+
+    return false;
+}
+
+
+
+
+$(document).ready(function () {
+   times.mobile.photostory.socialShareHandler();
+   $('.photos-leftpanel, .photos-rightpanel')
+   .theiaStickySidebar({
+    additionalMarginTop: 50,
+    additionalMarginBottom: 10
+});
+});
+var didScroll;
+var lastScrollTop = 0;
+var delta = 5;
+var navbarHeight = $('header').outerHeight();
+
+$(window).scroll(function (event) {
+    didScroll = true;
+});
+
+setInterval(function () {
+    if (didScroll) {
+        hasScrolled();
+        didScroll = false;
+    }
+}, 250);
+
+function hasScrolled() {
+    var st = $(this).scrollTop();
+
+    if (Math.abs(lastScrollTop - st) <= delta)
+        return;
+
+    if (st > lastScrollTop && st > navbarHeight) {
+                // Scroll Down
+                $('#gotoTop').fadeOut();
+            } else {
+                // Scroll Up
+                if (st + $(window).height() < $(document).height()) {
+                    $('#gotoTop').fadeIn();
+                }
+                if (st == 0) {
+                    $('#gotoTop').fadeOut();
+                }
+            }
+
+            lastScrollTop = st;
+        }
+
+        //Click event to scroll to top
+        $('#gotoTop').click(function () {
+            $('html, body').animate({scrollTop: 0}, 800);
+            return false;
+        });
+
+        
+        // $("body").on("click",".photos-facebook",function(){
+        //     var social_desc = $('meta[name=description]').attr("content");
+        //     var social_title = $('meta[property="og:title"]').attr("content");
+        //     var og_img = 'https://www.drivespark.com' + $(this).attr('data-share-image');
+        //     shareOverrideOGMeta(window.location.href, social_title, social_desc, og_img);
+        // });
+        
+
+        function openPopup(entity_id, category_id) {
+            url = "/scripts/gallery/ajax-common.php?func=get-embed-photos&entity_id=" + entity_id + "&category_id=" + category_id;
+            newwindow = window.open(url, 'name', 'height=600,width=600,resizable=1,scrollbars=1');
+        }
+
+
+
+        $(document).ready(function() {
+            $(".tab-block > div").first().fadeIn();
+            $(".tab ul li a").click(function(){
+                var id = $(this).attr("id");
+                $(".tab ul li a").removeClass("active");
+                $(this).addClass("active"); 
+                $(".tab-block > div").hide();
+                $('.tab-block > div.'+id+'-block').fadeIn();
+            });
+        });
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+        

@@ -1,0 +1,1285 @@
+var _comscore = _comscore || [];
+_comscore.push({c1: "2", c2: "7732551"});
+(function () {
+    var s = document.createElement("script"), el = document.getElementsByTagName("script")[0];
+    s.async = true;
+    s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+    el.parentNode.insertBefore(s, el);
+})();
+
+var  domain_name_ref =  '';
+if(document.referrer)
+{
+     domain_name_ref =  document.referrer.match(/:\/\/(.[^/]+)/)[1];
+}
+
+function getUserCookie(c_name) {
+    var c_value = document.cookie;
+    var c_start = c_value.indexOf(" " + c_name + "=");
+    if (c_start == -1) {
+        c_start = c_value.indexOf(c_name + "=");
+    }
+    if (c_start == -1) {
+        c_value = null;
+    } else {
+        c_start = c_value.indexOf("=", c_start) + 1;
+        var c_end = c_value.indexOf(";", c_start);
+        if (c_end == -1) {
+            c_end = c_value.length;
+        }
+        c_value = unescape(c_value.substring(c_start, c_end));
+    }
+    return c_value;
+}
+function setCook(name,value,time) 
+{
+   var chkcookiepolicy = getUserCookie('cookiePolicy');//for fetching the cookie
+    if(chkcookiepolicy !=0){
+   var date=new Date()
+    date.setTime(date.getTime()+(1*60*60*1000))
+    var expires="; expires="+date.toGMTString();    
+    document.cookie=name+"="+value+expires+"; path=/"   
+}
+}
+
+if(parent.document.referrer) {    
+    var myReferer = parent.document.referrer;
+    ref_domain = getHostName(myReferer);
+    if (ref_domain != 'gizbot.com' && ref_domain != 'www.gizbot.com')
+    {
+        //console.log('created')
+        setCook('gizbot_ref_domain',domain_name_ref);
+    }
+    
+}
+if(document.referrer == 'http://www.gizbot.com/' || document.referrer == 'https://www.gizbot.com/')
+{
+      setCook('gizbot_ref_domain','www.gizbot.com');
+}
+else if(document.referrer == 'https://www.google.co.in/' || document.referrer == 'https://www.google.com/')
+{
+    setCook('gizbot_ref_domain','www.gizbot.com');
+}
+
+
+ var mainUrl = parent.document.location.href;
+var refString = mainUrl.substr(mainUrl.indexOf("?ref=") + 5);
+
+function readCookie(name)
+{
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ')
+                    c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0)
+                    return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+}
+var gizbot_ref_domain = readCookie("gizbot_ref_domain");
+
+
+
+
+(function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new
+    Date();
+    a = s.createElement(o),
+    m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+
+
+if (refString == 'widget')
+{
+    setCook('oneindia_ref_domain1', gizbot_ref_domain);
+    // console.log('test1')
+}
+else if (refString != 'widget')
+{
+    if (gizbot_ref_domain == 'hindi.oneindia.com')
+    {
+        setCook('oneindia_ref_domain1', 'hindi.gizbot.com');
+    }
+    else if (gizbot_ref_domain == 'kannada.oneindia.com')
+    {
+        setCook('oneindia_ref_domain1', 'kannada.gizbot.com');
+    }
+    else if (gizbot_ref_domain == 'telugu.oneindia.com')
+    {
+        setCook('oneindia_ref_domain1', 'telugu.gizbot.com');
+    }
+    else if (gizbot_ref_domain == 'tamil.oneindia.com')
+    {
+        setCook('oneindia_ref_domain1', 'tamil.gizbot.com');
+    }
+    else if (gizbot_ref_domain == 'malayalam.oneindia.com')
+    {
+        setCook('oneindia_ref_domain1', 'malayalam.gizbot.com');
+    }
+    else if(gizbot_ref_domain != '' && gizbot_ref_domain != null)
+    {
+        setCook('oneindia_ref_domain1',gizbot_ref_domain);
+    }
+    else
+    {
+        setCook('oneindia_ref_domain1','www.gizbot.com');
+    }
+    
+
+}
+else if (gizbot_ref_domain != '' && gizbot_ref_domain != null)
+{
+    //console.log('test2')
+    setCook('oneindia_ref_domain1', gizbot_ref_domain);
+}
+else
+{
+    setCook('oneindia_ref_domain1', 'www.gizbot.com');
+}
+function getHostName(url) {
+    var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
+    if (match != null && match.length > 2 &&
+        typeof match[2] === 'string' && match[2].length > 0) {
+        return match[2];
+}
+else {
+    return null;
+}
+}
+
+var oneindia_ref_domain1 = readCookie('oneindia_ref_domain1');
+
+if (oneindia_ref_domain1 == 'hindi.oneindia.com')
+{
+    window.google_analytics_uacct = "UA-110466-36";
+
+    var url = parent.document.location.href;
+    var pattern = (window.location.protocol == "https:" ? "https://" : "http://") + window.location.hostname;
+    url = url.replace(pattern, "");
+    var title = parent.document.title;
+
+
+    ga('create', 'UA-110466-36', 'auto', {'name': 'oneindiahi'});
+    ga('create', 'UA-110466-40', 'auto', {'name': 'rosoneindia'});
+    ga('oneindiahi.send', 'pageview', {'page': url, 'title': title});
+    ga('rosoneindia.send', 'pageview', {'page': url, 'title': title}); // Send page view for ROS oneindia.
+
+
+
+}
+else if (oneindia_ref_domain1 == 'kannada.oneindia.com')
+{
+    window.google_analytics_uacct = "UA-110466-12";
+
+    var url = parent.document.location.href;
+    var pattern = (window.location.protocol == "https:" ? "https://" : "http://") + window.location.hostname;
+    url = url.replace(pattern, "");
+    var title = parent.document.title;
+
+
+    ga('create', 'UA-110466-12', 'auto', {'name': 'oneindiakn'});
+    ga('create', 'UA-110466-40', 'auto', {'name': 'rosoneindia'});
+    ga('oneindiakn.send', 'pageview', {'page': url, 'title': title});
+    ga('rosoneindia.send', 'pageview', {'page': url, 'title': title}); // Send page view for ROS oneindia.
+
+
+}
+else if (oneindia_ref_domain1 == 'tamil.oneindia.com')
+{
+    window.google_analytics_uacct = "UA-110466-13";
+
+    var url = parent.document.location.href;
+    var pattern = (window.location.protocol == "https:" ? "https://" : "http://") + window.location.hostname;
+    url = url.replace(pattern, "");
+    var title = parent.document.title;
+
+
+    ga('create', 'UA-110466-13', 'auto', {'name': 'oneindiata'});
+    ga('create', 'UA-110466-40', 'auto', {'name': 'rosoneindia'});
+    ga('oneindiata.send', 'pageview', {'page': url, 'title': title});
+    ga('rosoneindia.send', 'pageview', {'page': url, 'title': title}); // Send page view for ROS oneindia.
+
+
+
+}
+else if (oneindia_ref_domain1 == 'telugu.oneindia.com')
+{
+    window.google_analytics_uacct = "UA-110466-14";
+
+    var url = parent.document.location.href;
+    var pattern = (window.location.protocol == "https:" ? "https://" : "http://") + window.location.hostname;
+    url = url.replace(pattern, "");
+    var title = parent.document.title;
+
+
+    ga('create', 'UA-110466-14', 'auto', {'name': 'oneindiate'});
+    ga('create', 'UA-110466-40', 'auto', {'name': 'rosoneindia'});
+    ga('oneindiate.send', 'pageview', {'page': url, 'title': title});
+    ga('rosoneindia.send', 'pageview', {'page': url, 'title': title}); // Send page view for ROS oneindia.
+
+
+}
+else if (oneindia_ref_domain1 == 'malayalam.oneindia.com')
+{
+    window.google_analytics_uacct = "UA-110466-15";
+
+    var url = parent.document.location.href;
+    var pattern = (window.location.protocol == "https:" ? "https://" : "http://") + window.location.hostname;
+    url = url.replace(pattern, "");
+    var title = parent.document.title;
+
+
+    ga('create', 'UA-110466-15', 'auto', {'name': 'oneindiaml'});
+    ga('create', 'UA-110466-40', 'auto', {'name': 'rosoneindia'});
+    ga('oneindiaml.send', 'pageview', {'page': url, 'title': title});
+    ga('rosoneindia.send', 'pageview', {'page': url, 'title': title}); // Send page view for ROS oneindia.
+
+
+}
+
+else if (oneindia_ref_domain1 == 'www.oneindia.com')
+{
+    window.google_analytics_uacct = "UA-110466-52";
+
+    var url = parent.document.location.href;
+    var pattern = (window.location.protocol == "https:" ? "https://" : "http://") + window.location.hostname;
+    url = url.replace(pattern, "");
+    var title = parent.document.title;
+
+
+    ga('create', 'UA-110466-52', 'auto', {'name': 'oneindiaen'});
+    ga('create', 'UA-110466-40', 'auto', {'name': 'rosoneindia'});
+    ga('oneindiaen.send', 'pageview', {'page': url, 'title': title});
+    ga('rosoneindia.send', 'pageview', {'page': url, 'title': title}); // Send page view for ROS oneindia.
+
+
+}
+else if (oneindia_ref_domain1 == 'gujarati.oneindia.com')
+{
+    window.google_analytics_uacct = "UA-110466-73";
+
+    var url = parent.document.location.href;
+    var pattern = (window.location.protocol == "https:" ? "https://" : "http://") + window.location.hostname;
+    url = url.replace(pattern, "");
+    var title = parent.document.title;
+
+
+    ga('create', 'UA-110466-73', 'auto', {'name': 'oneindiagu'});
+    ga('create', 'UA-110466-40', 'auto', {'name': 'rosoneindia'});
+    ga('oneindiagu.send', 'pageview', {'page': url, 'title': title});
+    ga('rosoneindia.send', 'pageview', {'page': url, 'title': title}); // Send page view for ROS oneindia.
+
+
+}
+else if (oneindia_ref_domain1 == 'bengali.oneindia.com')
+{
+    window.google_analytics_uacct = "UA-110466-55";
+
+    var url = parent.document.location.href;
+    var pattern = (window.location.protocol == "https:" ? "https://" : "http://") + window.location.hostname;
+    url = url.replace(pattern, "");
+    var title = parent.document.title;
+
+
+    ga('create', 'UA-110466-55', 'auto', {'name': 'oneindiabn'});
+    ga('create', 'UA-110466-40', 'auto', {'name': 'rosoneindia'});
+    ga('oneindiabn.send', 'pageview', {'page': url, 'title': title});
+    ga('rosoneindia.send', 'pageview', {'page': url, 'title': title}); // Send page view for ROS oneindia.
+
+
+
+}
+else if (oneindia_ref_domain1 == 'hindi.gizbot.com')
+{
+    window.google_analytics_uacct = "UA-110466-98";
+    var url = parent.document.location.href;
+    var pattern = (window.location.protocol == "https:" ? "https://" : "http://") + window.location.hostname;
+    url = url.replace(pattern, "");
+    var title = parent.document.title;
+
+    ga('create', 'UA-110466-98', 'auto', {'name': 'gizbothi'});
+    ga('create', 'UA-110466-74', 'auto', {'name': 'rosgizbot'});  // ROS Gizbot tracker.
+    ga('gizbothi.send', 'pageview', {'page': url, 'title': title});
+    ga('rosgizbot.send', 'pageview', {'page': url, 'title': title}); // Send page view for ROS Gizbot.
+
+
+}
+else if (oneindia_ref_domain1 == 'kannada.gizbot.com')
+{
+    window.google_analytics_uacct = "UA-110466-96";
+    var url = parent.document.location.href;
+    var pattern = (window.location.protocol == "https:" ? "https://" : "http://") + window.location.hostname;
+    url = url.replace(pattern, "");
+    var title = parent.document.title;
+
+
+    ga('create', 'UA-110466-96', 'auto', {'name': 'gizbotkn'});
+    ga('create', 'UA-110466-74', 'auto', {'name': 'rosgizbot'});  // ROS Gizbot tracker.
+    ga('gizbotkn.send', 'pageview', {'page': url, 'title': title});
+    ga('rosgizbot.send', 'pageview', {'page': url, 'title': title}); // Send page view for ROS Gizbot.
+
+
+}
+else if (oneindia_ref_domain1 == 'tamil.gizbot.com')
+{
+    window.google_analytics_uacct = "UA-110466-94";
+    var url = parent.document.location.href;
+    var pattern = (window.location.protocol == "https:" ? "https://" : "http://") + window.location.hostname;
+    url = url.replace(pattern, "");
+    var title = parent.document.title;
+
+    
+
+    ga('create', 'UA-110466-94', 'auto', {'name': 'gizbotta'});
+    ga('create', 'UA-110466-74', 'auto', {'name': 'rosgizbot'});  // ROS Gizbot tracker.
+    ga('gizbotta.send', 'pageview', {'page': url, 'title': title});
+    ga('rosgizbot.send', 'pageview', {'page': url, 'title': title});
+
+}
+else if (oneindia_ref_domain1 == 'telugu.gizbot.com')
+{
+    window.google_analytics_uacct = "UA-110466-95";
+    var url = parent.document.location.href;
+    var pattern = (window.location.protocol == "https:" ? "https://" : "http://") + window.location.hostname;
+    url = url.replace(pattern, "");
+    var title = parent.document.title;
+
+    
+
+    ga('create', 'UA-110466-95', 'auto', {'name': 'gizbotte'});
+    ga('create', 'UA-110466-74', 'auto', {'name': 'rosgizbot'});  // ROS Gizbot tracker.
+    ga('gizbotte.send', 'pageview', {'page': url, 'title': title});
+    ga('rosgizbot.send', 'pageview', {'page': url, 'title': title}); // Send page view for ROS Gizbot.
+
+}
+else if (oneindia_ref_domain1 == 'malayalam.gizbot.com')
+{
+    window.google_analytics_uacct = "UA-110466-97";
+    var url = parent.document.location.href;
+    var pattern = (window.location.protocol == "https:" ? "https://" : "http://") + window.location.hostname;
+    url = url.replace(pattern, "");
+    var title = parent.document.title;
+
+    
+    ga('create', 'UA-110466-97', 'auto', {'name': 'gizbotml'});
+    ga('create', 'UA-110466-74', 'auto', {'name': 'rosgizbot'});  // ROS Gizbot tracker.
+    ga('gizbotml.send', 'pageview', {'page': url, 'title': title});
+    ga('rosgizbot.send', 'pageview', {'page': url, 'title': title}); // Send page view for ROS Gizbot.
+
+}
+else
+{
+    window.google_analytics_uacct = "UA-110466-99";
+    var url = parent.document.location.href;
+    var pattern = (window.location.protocol == "https:" ? "https://" : "http://") + window.location.hostname;
+    url = url.replace(pattern, "");
+    var title = parent.document.title;
+
+    
+    ga('create', 'UA-110466-99', 'auto', {'name': 'gizboten'});
+    ga('create', 'UA-110466-74', 'auto', {'name': 'rosgizbot'});  // ROS Gizbot tracker.
+    ga('gizboten.send', 'pageview', {'page': url, 'title': title});
+    ga('rosgizbot.send', 'pageview', {'page': url, 'title': title}); // Send page view for ROS Gizbot.  // Send page view for ROS Gizbot.
+
+}
+
+var oi_content_type='';
+if((document.querySelector('head')) && (document.querySelector('head').getAttribute('data-content_type'))){
+  oi_content_type=document.querySelector('head').getAttribute('data-content_type');
+}
+if(oi_content_type != undefined && oi_content_type != ""){
+}
+
+// this is for tracking events added by Ram
+function eventTracker(category, action, label)
+{
+    console.log(category + '' + action + '' + label + 'triggered');
+    ga('rosgizbot.send', 'event', category, action, label);
+}
+
+
+require(["jquery"], function ($) {
+
+    $(".giz-share-links .share-fb").click(function(){
+        var social_url = document.querySelector("link[rel='canonical']").getAttribute("href");
+        var fb_url = "https://www.facebook.com/sharer/sharer.php?u=" + social_url + "&display=popup&ref=plugin";
+        window.open(fb_url, 'Share on Facebook', 'menubar=no,toolbar=no,resizable=no,scrollbars=no,height=400,width=600');
+    });
+    $(".giz-share-links .share-twitter").click(function(){
+        var social_url = document.querySelector("link[rel='canonical']").getAttribute("href");
+        var social_title = document.title;
+        social_title = social_title.replace(/[^\w\s]/gi, '');
+        var twitter_data_via = '';
+        var tweet_url = "https://twitter.com/share?url=" + social_url + "&via=" + twitter_data_via + "&text=" + encodeURIComponent(social_title) + "&related=&hashtags=" ;
+        window.open(tweet_url, 'Share on Twitter', 'menubar=no,toolbar=no,resizable=no,scrollbars=no,height=400,width=600');
+    });
+    $(".giz-share-links .share-gplus").click(function(){
+        var social_url = document.querySelector("link[rel='canonical']").getAttribute("href");
+        var gp_url = "https://plus.google.com/share?url=" + social_url;
+        window.open(gp_url, 'Share on gPlus', 'menubar=no,toolbar=no,resizable=no,scrollbars=no,height=400,width=600');
+    });
+
+    $("a.menu").click(function() {
+        if($(".primary-links").is(':hidden'))
+            $(".primary-links").show();
+        else {
+            $(".primary-links").hide();
+        }
+        $('.show-languages').hide();
+        return false;
+    });
+
+    $(".language-links a.lang-selected").click(function(){
+        $('.show-languages').toggle();
+        $(".primary-links").hide();
+    });
+
+    $('.primary-links').click(function(e) {
+        e.stopPropagation();
+    });
+    $('.language-links a.lang-selected').click(function(e) {
+        e.stopPropagation();
+    });
+
+    $(document).click(function() {
+        $('.primary-links').hide();
+        $('.show-languages').hide();
+    });
+
+    submenuheight();
+    function submenuheight()
+    {
+        var length = $(".giz-sub-sec-menu").children(".giz-sub-menu-block").length;
+        var dheight = 1;
+        for(i = 1; i <= length; i++)
+        {
+            var height = $('.giz-sub-menu-block:nth-child('+i+') ul').outerHeight();
+            if(height >= dheight)
+            {
+                dheight = height;
+            }
+        }
+        $('.giz-sub-menu-block ul').css("height",dheight);
+    }
+    /** variable declare **/
+                var lang = $(".header-left .giz-lang a"); /*** language click **/
+                var langBlock = $(".header-nav-show div");  /*** language block  **/
+                var html_el = $('html'); /*** html element **/
+                var overlay = $(".giz-overlay"); /*** Overlay **/
+                var menu = $(".giz-menu"); /*** menu element **/
+                var headerNav = $(".header-nav"); /*** header nav element **/
+                var menuBlock = $(".giz-sub-sec-menu"); /*** menu block **/
+                var fixedMenuIcon = $(".giz-sub-menu-fixed a.giz-menu"); /*** Fixed menu Icon **/
+                var homeMenuIcon = $(".header-nav-left li a"); /*** Static menu Icon **/
+                var searchHome = $("#search"); /** search home Menu **/
+                var searchFixed= $("#search1"); /** search Fixed Menu **/
+                var menuFixed = $(".giz-sub-menu-fixed");
+
+                var removeSearch = $(".header");
+
+
+                /*** Language Menu Click Function **/
+
+                lang.click(function(e){
+                    var scrolltop = $(window).scrollTop();
+                    var fixed = "giz-bhomefixed";
+                    if(langBlock.hasClass("show"))
+                    {
+                        $(this).removeClass("current");
+                        langBlock.removeClass("show");
+                        overlay.removeClass("active");
+                        html_el.removeClass("giz-bhomefixed");
+                        dsCloseOverlay(fixed);
+                    }
+                    else
+                    {
+                        $(this).addClass("current");
+                        langBlock.addClass("show");
+                        menu.removeClass("active");
+                        headerNav.removeClass("open-search");
+                        menuBlock.removeClass("giz-open");
+                        overlay.addClass("active");
+                        $(".header sticky").removeClass('sticky');
+                        if(!html_el.hasClass("giz-bhomefixed"))
+                        {
+                            html_el.addClass(fixed).css('top', -scrolltop);
+                        }
+                    }
+
+                });
+            /*** Static Menu Click Function **/
+            var prevId = 'default';
+            homeMenuIcon.click(function(e) {
+                var scrolltop = $(window).scrollTop();
+                var fixed = "giz-bhomefixed";
+                var id = $(this).attr("id");
+                if(id == prevId)
+                {
+                    if(menuBlock.hasClass("giz-open")) {
+                        menuBlock.removeClass("giz-open");
+$(".giz-overlay,.giz-sub-menu-block").removeClass("active");
+                        prevId = 'default';
+                        dsCloseOverlay(fixed);
+                    }
+                }
+                else
+                {
+
+$(".giz-sub-menu-block").removeClass("active");
+                        $("."+id+"-block").addClass("active");
+                        menuBlock.addClass("giz-open");
+                        langBlock.removeClass("show");
+                        lang.removeClass("current");
+                        removeSearch.removeClass("open-search");
+                        prevId = id;
+                        if(!html_el.hasClass("giz-bhomefixed"))
+                        {
+                            overlay.addClass("active");
+                            html_el.addClass(fixed).css('top', -scrolltop);
+                        }
+                }
+            });
+
+            /*** Overlay Click Function **/
+
+            overlay.click(function()
+            {
+                    $(".giz-menu-home,.giz-sub-menu-fixed a,.giz-sub-menu-block").removeClass("active");
+                    prevId = 'default';
+                    lang.removeClass("current");
+                    var scrollTop = parseInt($('html').css('top'));
+                    html_el.removeClass("giz-bfixed giz-bhomefixed");
+                    html_el.scrollTop(-scrollTop);
+                    $(this).removeClass("active");
+                    menuBlock.removeClass("giz-open");
+                    langBlock.removeClass("show");
+                    homeMenuIcon.removeClass("active");
+            });
+
+            /*** Close Overlay **/
+
+            function dsCloseOverlay(fixed)
+            {
+                    menuBlock.removeClass("giz-open");
+                    overlay.removeClass("active");
+                    var scrollt = parseInt($('html').css('top'));
+                    html_el.removeClass(fixed);
+                    $("html,body").scrollTop(-scrollt);
+            }
+
+
+            /*** Open Overlay **/
+
+            function dsOpenOverlay(fixed,scrolltop)
+            {
+                    overlay.addClass("active");
+                    if(html_el.hasClass("giz-bfixed"))
+                    {
+                        var scrollt = parseInt($('html').css('top'));
+                        html_el.removeClass("giz-bfixed");
+                        html_el.addClass("giz-bfixed").css('top', scrollt);
+                    }
+                    else
+                    {
+                        html_el.addClass(fixed).css('top', -scrolltop);
+
+                    }
+            }
+
+
+
+            /*** Search Click Menu **/
+
+            $(".header-right .giz-search").click(function(e)
+            {
+                e.stopPropagation();
+                var headerNav = $(".header");
+                if(headerNav.hasClass("open-search"))
+                {
+                    $(".giz-search-block").css("display","block");
+                    removeSearch.removeClass("open-search");
+                    var scrollt = parseInt($('html').css('top'));
+
+                    html_el.removeClass('giz-bfixed giz-bhomefixed');
+                    $("html,body").scrollTop(-scrollt);
+                }
+                else
+                {
+                    searchHome.focus();
+                    headerNav.addClass("open-search");
+                    html_el.removeClass("giz-fixed");
+                    $(".giz-search-block").css("display","block");
+                    var scrolltop = $(window).scrollTop();
+                    var scrollt = parseInt($('html').css('top'));
+html_el.addClass("giz-bhomefixed").css('top',-scrolltop);
+                    langBlock.removeClass("show");
+                    lang.removeClass("current");
+$(".giz-menu,.giz-overlay").removeClass("active");
+                    menuBlock.removeClass("giz-open");
+                }
+            });
+
+            /*** Close Search Click **/
+
+            $(".giz-close").click(function(e)
+            {
+                $(".giz-search-block").css("display","none");
+                removeSearch.removeClass("open-search");
+                headerNav.removeClass("open-search");
+                html_el.removeClass('giz-bfixed giz-bhomefixed');
+            });
+
+
+    // Code for header fixed on scroll
+
+        var stickyheader = $('.header-ad');
+        if (stickyheader.length) {
+            var stickyheadscroll = stickyheader.offset().top;
+        }
+        $(window).scroll(function() {
+            if(!html_el.hasClass("giz-bhomefixed"))
+            {
+                if(stickyheadscroll <= $(window).scrollTop()) {
+                    $('.header').addClass('sticky');
+                }
+            }
+            if($(window).scrollTop()== 0){
+                $('.header').removeClass('sticky');
+            }
+        }); 
+
+   
+}); 
+
+ function callSearch(obj,flg){
+    $(".search-icon img").css("display","none");
+        callSearch = Function("");
+        if(flg=='web')
+                $(obj).remove();
+        else
+                $(obj).remove();
+    var cx = '008580787323542239166:6qcjvhmtxl4';
+        var gcse = document.createElement('script');
+        gcse.type = 'text/javascript';
+        gcse.async = true;
+        gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//www.google.co.in/cse/cse.js?cx=' + cx;
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(gcse, s);
+} 
+
+function changeCategory(loc)
+{
+    window.location.href = loc;
+}
+
+
+try{
+require(["jquery"],function($){
+$('#searchBox').keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+        var searchValue = $('#searchBox').val();
+        var curr_url=window.location.href;
+        var tab;
+
+        if(curr_url.indexOf('gadget-finder')>0 || curr_url.indexOf('/new-mobiles/')>0 || curr_url.indexOf('/new-tablets/')>0  || curr_url.indexOf('/new-laptops/')>0 || curr_url.indexOf('/new-wearables/')>0 || curr_url.indexOf('/new-cameras/')>0  || curr_url.indexOf('/best-')>0  || curr_url.indexOf('/top-10')>0)
+            tab='specification';
+        else if(curr_url.indexOf('/photos/')>0)
+            tab='photos';
+        else if(curr_url.indexOf('/videos/')>0)
+            tab='videos';
+        else
+            tab='news';
+
+            var search_url;
+            if(tab!=='')
+search_url="https://www.gizbot.com/search/results.html?q="+searchValue+"#"+encodeURIComponent(tab);
+            else
+search_url="https://www.gizbot.com/search/results.html?q="+searchValue;
+
+            if(curr_url.indexOf('results.html')>0)
+            {
+                tab=window.location.hash;
+                if(tab!=='')
+search_url="https://www.gizbot.com/search/results.html?q="+searchValue+tab;
+                else
+search_url="https://www.gizbot.com/search/results.html?q="+searchValue;
+
+                window.location.href=search_url;
+            }
+            else
+            {
+                var win = window.open(search_url,'_blank');
+            }
+        }
+        event.stopPropagation();
+    });
+});
+}catch(err){
+        console.log("Elastic Search Block : "+err);
+}
+
+ $(".giz-search").click(function() {
+    var searchValue = $('#searchBox').val();
+    if (searchValue != ''){
+        var curr_url=window.location.href;
+        var tab;
+
+        if(curr_url.indexOf('gadget-finder')>0 || curr_url.indexOf('/new-mobiles/')>0 || curr_url.indexOf('/new-tablets/')>0  || curr_url.indexOf('/new-laptops/')>0 || curr_url.indexOf('/new-wearables/')>0 || curr_url.indexOf('/new-cameras/')>0  || curr_url.indexOf('/best-')>0  || curr_url.indexOf('/top-10')>0)
+            tab='specification';
+        else if(curr_url.indexOf('/photos/')>0)
+            tab='photos';
+        else if(curr_url.indexOf('/videos/')>0)
+            tab='videos';
+        else
+            tab='news';
+
+            var search_url;
+            if(tab!=='')
+search_url="https://www.gizbot.com/search/results.html?q="+searchValue+"#"+encodeURIComponent(tab);
+            else
+search_url="https://www.gizbot.com/search/results.html?q="+searchValue;
+
+            if(curr_url.indexOf('results.html')>0)
+            {
+                tab=window.location.hash;
+                if(tab!=='')
+search_url="https://www.gizbot.com/search/results.html?q="+searchValue+tab;
+                else
+search_url="https://www.gizbot.com/search/results.html?q="+searchValue;
+
+                window.location.href=search_url;
+            }
+            else
+            {
+                var win = window.open(search_url,'_blank');
+            }
+           $('#searchBox').val('');
+                console.log('You clicked on search button');
+        }
+         }); 
+
+
+
+
+ try{
+function refreshBid(adUnit,slotPos) {
+    var PREBID_TIMEOUT_REFRESH=500;
+    pbjs.que.push(function() {
+        pbjs.requestBids({
+            timeout: PREBID_TIMEOUT_REFRESH,
+            adUnitCodes: [adUnit],
+            bidsBackHandler: function() {
+                pbjs.setTargetingForGPTAsync([adUnit]);
+                googletag.pubads().refresh([slotPos]);
+            }
+        });
+    });
+}
+require(["jquery","jqvisible"],function($){
+    $(window).on('scroll', function() {
+        $('.oiad').each(function(idx,elem) {
+            var adexec = $(this).attr('data-exec');
+            var elemVisible = $(this).visible(true);
+            var thisTop = $(this).offset().top - $(window).scrollTop();
+            var dataElem = $(this).attr('data-elementid');
+            var curId = $(this).attr('id');
+            var dataVal = $(this).attr('data-adval');
+            var isrefreshed = $(this).attr('data-adrefreshed');
+            if (elemVisible==true && dataVal==1 && isrefreshed==undefined) {
+                  //googletag.pubads().refresh([slot[dataElem]]);
+                  // if(dataElem != undefined){
+                  //   var adUnitCode = slot[dataElem].getAdUnitPath();
+                  //   refreshBid(adUnitCode,slot[dataElem]);
+                  // }
+                  if(dataElem != undefined && slot[dataElem] != undefined){
+                    var isTimer = document.getElementById(curId).getAttribute('data-timer');
+                    var roadBlock = document.getElementById(curId).getAttribute('data-isroadblock');
+                    var roadBlockTimeout = document.getElementById(curId).getAttribute('data-roadBlockTimeout');
+                    var adUnitCode = slot[dataElem].getAdUnitPath();
+                    //refreshBid(adUnitCode,slot[dataElem]);
+                    if(roadBlock)
+                    {
+                      setTimeout(function() {
+                      refreshBid(adUnitCode,slot[dataElem]);
+                      },roadBlockTimeout);
+                    }
+                    else
+                    {
+                      if(isTimer==5)
+                      {
+                        refreshBid(adUnitCode,slot[dataElem]);
+                      }
+                      else
+                      {
+                        setTimeout(function() {
+                        refreshBid(adUnitCode,slot[dataElem]);
+                        },refreshTimeOut);
+                      }
+
+                    }
+                  }
+                  $(this).attr('data-exec',1);
+                  $(this).attr('data-adrefreshed',1);
+            }else if((!elemVisible && (this.getBoundingClientRect().top < 0))|| ((window.innerHeight + window.scrollY) >= document.body.offsetHeight)){
+                  $(this).attr("data-adval",1);
+                  $(this).removeAttr("data-adrefreshed");
+            }else{
+                  $(this).attr('data-exec',0);
+            }
+        });
+
+
+//        if($('.photosInarticleAd').length > 0)
+  //      {
+           
+         /*   $('.photosInarticleAd').each(function(idx,elem) {
+                var elemVisible = $(this).visible(true);
+                var thisTop = $(this).offset().top - $(window).scrollTop();
+                var curId = $(this).attr('id');
+                var isrefreshed = $(this).attr('data-refreshed');
+                var curSlno = $(this).attr('data-slno');
+                var adDiv = '<div id="div-gpt-ad-1472101210167-1"  style="width: 300px;float: left;"></div>';
+                var adid = "div-gpt-ad-1472101210167-1";
+                
+                
+                if (elemVisible==true && isrefreshed==0) {
+                    $(this).html(adDiv);
+                    //googletag.pubads().refresh([slot[2]]); 
+                    refreshBid('/1008496/gb-inarticle-300x250-gallery-1',slot[2]);                  
+                      $(this).attr('data-refreshed',1);
+                      $(this).attr('data-status',true);
+                    }else if((!elemVisible && (this.getBoundingClientRect().top < 0))|| (!elemVisible && (this.getBoundingClientRect().top >= window.height)) || ((window.innerHeight + window.scrollY) >= document.body.offsetHeight)){
+                    //  console.log('elemVisibleddddddddddddd'+elemVisible)
+                        $(this).attr('data-status',false);
+                        $(this).html('');                       
+                    $(this).attr('data-refreshed',0);
+                }
+            });*/
+        
+    //    }
+    });
+
+
+    if (document.getElementById('containerMain')) {
+    var page_type = document.getElementById('containerMain').getAttribute('data-page_type');
+    if (page_type == 'sliderpage') {
+        var stickyad = $('#containerMain');
+        var stickyadscroll = stickyad.offset().top;
+        var isRefreshed = 0;
+
+        var isStickyTop = 0;
+        var isTopReached = 0;
+        
+        $(window).scroll(function() {
+
+
+
+            if (isRefreshed == 0) {
+                isRefreshed = 1;
+                $('#photo_ad_head_second').addClass('sticky2');
+
+                if (isStickyTop == 0 && isTopReached == 0) {
+
+                    isStickyTop = 1;
+
+                    if ($("#div-gpt-ad-1384320856135-6").length <= 0) {
+                        var checkAdStatus = sessionStorage.getItem("showad");
+                        if (checkAdStatus == '' || checkAdStatus == 'undefined' || checkAdStatus == null) {
+                            //console.log("If");
+                            $('#photo_ad_head_second').html('<div id="topAdWrapper"><div id="topAdCont"><div id="topAdCont"><div id="topAdClose"><a  href="javascript:void(0)"><span>X</span></a></div><div id="div-gpt-ad-1384320856135-6"></div></div></div>');
+                            setTimeout(function(){
+                                $('#topAdClose').show();
+                                },2000);
+                            $("#topAdWrapper").addClass("show");
+                            $("#topAdCont").show("slow");
+                            //$('#topAdWrapper').remove();
+                        } else {
+                            //  console.log("else");
+                            $("#topAdWrapper").removeClass("show");
+                            $("#topAdCont").hide();
+                        }
+                        
+                        $("#topAdClose").on("click", function() {
+                            if ($(this).parents("#topAdWrapper").hasClass("show")) {
+                                if (typeof(Storage) !== "undefined") {
+                                    sessionStorage.setItem("showad", 1);
+                                }
+                                $(this).parents("#topAdWrapper").removeClass("show");
+                                $("#topAdCont").toggle("slow");
+                                $('#topAdWrapper').remove();
+                            } else {
+                                if (typeof(Storage) !== "undefined") {
+                                    sessionStorage.removeItem("showad");
+                                }
+                                $(this).parents("#topAdWrapper").addClass("show");
+                                $("#topAdCont").toggle("slow");
+                            }
+                        });
+                    }
+                    googletag.cmd.push(function() {
+                        if(document.getElementById('div-gpt-ad-1384320856135-6')){
+                            document.getElementById('div-gpt-ad-1384320856135-6').style.display = 'block';
+                           
+
+                        slotTop[1] = googletag.defineSlot('/1008496/gizbot-home-728x90', [[728, 90], [970, 90]], 'div-gpt-ad-1384320856135-6').addService(googletag.pubads());
+                        //googletag.pubads().enableSingleRequest();
+                        googletag.enableServices();
+                        googletag.display('div-gpt-ad-1384320856135-6');
+                        googletag.pubads().addEventListener('slotRenderEnded', function(event) {
+                             if (event.slot === slotTop[1] && !event.isEmpty) {
+                                var rightEventSize=event.size[0]+"-"+event.size[1];
+                                document.getElementById('wrapper').setAttribute('data-size',rightEventSize);
+                                if (rightEventSize == '728-90'){
+                                    $('#topAdWrapper').css('width', '753px');
+                                }
+                                else{
+                                    $('#topAdWrapper').css('width', '1000px');
+                                }
+                             }
+               
+                        });
+                        }
+                        setTimeout(function(){
+                            if(document.getElementById('div-gpt-ad-1384320856135-5')){
+                                document.getElementById('div-gpt-ad-1384320856135-5').setAttribute('data-google-query-id', '');
+                                document.getElementById('div-gpt-ad-1384320856135-5').innerHTML = '';
+                            }   
+                        },2000);
+                    });
+                    
+
+                } else {
+                    if ($("#div-gpt-ad-1384320856135-6").length <= 0) {
+                        var checkAdStatus = sessionStorage.getItem("showad");
+                        if (checkAdStatus == '' || checkAdStatus == 'undefined' || checkAdStatus == null) {
+                            //  console.log("If");
+                            $('#photo_ad_head_second').html('<div id="topAdWrapper"><div id="topAdCont"><div id="topAdClose"><a  href="javascript:void(0)"><span>X</span></a></div><div id="div-gpt-ad-1384320856135-6"></div></div></div>');
+                             setTimeout(function(){
+                                $('#topAdClose').show();
+                                },2000);
+                            $("#topAdWrapper").addClass("show");
+                            $("#topAdCont").show("slow");
+                            //googletag.pubads().refresh([slotTop[1]]);
+                            refreshBid('/1008496/gizbot-home-728x90',slotTop[1]);
+                        } else {
+                            //  console.log("else");
+                            $("#topAdWrapper").removeClass("show");
+                            $("#topAdCont").hide();
+                           // $('#topAdWrapper').remove();
+                        }
+                        $("#topAdClose").on("click", function() {
+
+                            //$("#topAdCont").hide("slow");
+
+                            if ($(this).parents("#topAdWrapper").hasClass("show")) {
+                                if (typeof(Storage) !== "undefined") {
+                                    sessionStorage.setItem("showad", 1);
+                                }
+                                $(this).parents("#topAdWrapper").removeClass("show");
+                                $("#topAdCont").toggle("slow");
+                                 $('#topAdWrapper').remove();
+                            } else {
+                                if (typeof(Storage) !== "undefined") {
+                                    sessionStorage.removeItem("showad");
+                                }
+                                $(this).parents("#topAdWrapper").addClass("show");
+                                $("#topAdCont").toggle("slow");
+                            }
+
+
+                        });
+                        
+
+                    }
+                      if(document.getElementById('div-gpt-ad-1384320856135-5')){
+                    document.getElementById('div-gpt-ad-1384320856135-5').setAttribute('data-google-query-id', '');
+                    document.getElementById('div-gpt-ad-1384320856135-5').innerHTML = '';
+                    }
+                    
+                }
+
+
+            }
+
+
+            //}
+            if ($(window).scrollTop() == 0) {
+                var isRefreshedUp = 0;
+                if (isRefreshedUp == 0) {
+                    isRefreshedUp = 1;
+                    isStickyTop = 0;
+                    isRefreshed = 0;
+                    isTopReached = 1;
+                    if ($("#div-gpt-ad-1384320856135-6").length > 0) {
+                        $("#div-gpt-ad-1384320856135-6").remove();
+                    }
+                    $('#photo_ad_head_second').removeClass('sticky2');
+                    //googletag.pubads().refresh([slotTop[0]]);
+                    refreshBid('/1008496/gizbot-home-728x90',slotTop[0]);
+                    $('#topAdWrapper').remove();
+                }
+            }
+
+
+
+
+        });
+
+
+        var docHeight = $(document).height();
+        var winHeight = $(window).height();
+        var refreshPer = (docHeight) / 2000;
+        var position = $(window).scrollTop();
+        var refreshPerc = Math.round(100 / (refreshPer));
+        var tempPer = 0;
+        var initialVal = 0;
+        $(window).scroll(function(e) {
+            var refreshed = 0;
+            var scrollTop = $(window).scrollTop();
+            var scrollPercent = (scrollTop) / (docHeight - winHeight);
+            var scrollPercentRounded = Math.round(scrollPercent * 100);
+            if (scrollPercentRounded != 0 && (scrollPercentRounded != tempPer)) {
+                var whenRefresh = Math.round(scrollPercentRounded % refreshPerc);
+                //console.log(whenRefresh);
+                if (whenRefresh == 0) {
+                    //  console.log("Refreshed  :"+scrollPercentRounded);
+                    //googletag.pubads().refresh([slotTop[1], rightSlot[0],bottmSlot[0]]);
+                    refreshBid('/1008496/gizbot-home-728x90',slotTop[1]);
+                    refreshBid('/1008496/gizbot-home-eng-right-rail',rightSlot[0]);
+                    refreshBid('/1008496/gizbot-300x250-right',bottmSlot[0]);
+                    tempPer = scrollPercentRounded;
+                }
+            }
+            if (scrollTop > position) {
+                //console.log('scrollDown');
+            } else {
+                if (initialVal == 0) {
+                    tempPer = 0;
+                    initialVal = 1;
+                }
+            }
+            position = scrollTop;
+        });
+
+
+
+
+    }
+}
+
+
+
+
+    
+  });
+}catch(err){
+    console.log("Ad Refresh Code : " + err);
+}
+
+
+
+require(["autocomplete"], function () {
+
+                $(function () {
+                    $('#search_photos').keypress(function (e) {
+                        if (e.which == 13) {
+                            if ($.trim($('#search_photos').val()) == "") {
+                                return false;
+                            }//<---- Add this line
+                        }
+                    });
+
+                    $('#searchVideosBtn').on('click', function (e) {
+                        if ($.trim($('#search_photos').val()) == "") {
+                            return false;
+                        }//<---- Add this line
+                    });
+
+                    $('#search_photos').on('click', function () {
+                        $('#search_photos').focus();
+                    });
+
+                    $('#searchBtn').click(function () {
+                        if ($.trim($('#search_photos').val()) != "") {
+                            $('#searchFrm').submit();
+                        }
+                    });
+
+                    $("#search_photos").autocomplete({
+                        source: function (request, response) {
+                            $('#searchBtn').removeClass("fa-search").addClass('fa-spin fa-spinner');
+                            $.ajax({
+                                type: "POST",
+                                url: "/scripts/gallery/search-photos.php",
+                                data: {search_photos: request.term, json: 1, from: 'autocomplete'},
+                                success: function (data) {                                
+                                if (data.length == 0) {
+                                data.push({
+                                id: 0,
+                                label: "No results found"
+                                });
+                                }
+                                response(data);
+                               
+                                },
+                                //success: response,
+                                dataType: 'json',
+                                delay: 100
+                            }).done(function () {
+                                $('#searchBtn').addClass("fa-search").removeClass('fa-spin fa-spinner');
+                            });
+                        },
+                        select: function (event, ui) {
+                           if(ui.item.id != 0)
+                           {
+                                window.location.href = ui.item.url;
+                                event.preventDefault();        
+                           }
+                        },
+                        minLength: 2
+                    }).data("ui-autocomplete")._renderItem = function (ul, item) {                        
+                        if(item.id == 0)
+                            return $("<li><div class='thumbnail-title-no'>Searched Keyword is not available</div></li>").appendTo(ul);
+                        else
+                        return $("<li></li>")
+                                .data("item.autocomplete", item)
+                                .append("<a href='" + item.url + "'>" + "<div class='thumb_nail_img'><img  src='" + item.image + "' /></div><div class='thumbnail-title'>" + item.label + "</div></a>")
+                                .appendTo(ul);
+                    };
+
+                    
+                });
+
+
+
+            });
+
+
+
+
+var ga_ad_block = "ad block";
+var hostname = window.location.hostname;
+var oiab_done = false;
+var oi_inhouse_flag=0;
+function loadScript(path, callback) {
+  var scr = document.createElement('script');
+  scr.onerror = handleError;
+  scr.async = true;
+  scr.src = path;
+  document.body.appendChild(scr);
+  function handleError() {
+    console.log('handleError');
+    if (!oiab_done) {
+      oiab_done = true;
+      loadwhenAB();
+    }
+  }
+}
+loadScript("https://"+hostname+"/common/js/ads.js");
+function loadwhenAB() {
+  console.log('inside AB function');
+  if (document.getElementById('zQyHLKpYGvgh')) {
+        oi_inhouse_flag=0;
+        console.log('Without Ad Blocker');
+  } else {
+    oi_inhouse_flag=1;
+      ga('gizboten.set','dimension6',ga_ad_block);
+        (function(){
+            var today = new Date();
+            var urlBurstParam = today.getHours();
+            var commontag = document.createElement('script');
+            commontag.src = 'https://rss.oneindia.com/common/oi-inhouse-scripts.js?lang=en&domain='+hostname+'&v='+urlBurstParam;
+            commontag.async = true;
+            commontag.id = 'oiinhousescripts';
+            var firstcommonScriptTag = document.getElementsByTagName('script')[0];
+            firstcommonScriptTag.parentNode.insertBefore(commontag, firstcommonScriptTag);
+        }());
+}
+}
+
+
+
+// var ga_ad_block = "ad block";
+// var hostname = window.location.hostname;
+// var oiab_done = false;
+// function loadScript(path, callback) {
+//   var scr = document.createElement('script');
+//   scr.onerror = handleError;
+//   scr.async = true;
+//   scr.src = path;
+//   document.body.appendChild(scr);
+//   function handleError() {
+//     console.log('handleError');
+//     if (!oiab_done) {
+//       oiab_done = true;
+//       loadwhenAB();
+//     }
+//   }
+// }
+// loadScript("https://"+hostname+"/common/js/ads.js"); //File needs to uplodaed to respective server.
+// function loadwhenAB() {
+//   console.log('inside AB function');
+//   if (document.getElementById('zQyHLKpYGvgh')) {
+//         console.log('Without Ad Blocker');
+//   } else {
+//      ga('gizboten.set','dimension6',ga_ad_block); 
+//         (function(){
+//             var today = new Date();
+//             var urlBurstParam = today.getHours();
+//             var commontag = document.createElement('script');
+//             commontag.src = 'https://rss.oneindia.com/common/oi-inhouse-scripts.js?lang=en&domain='+hostname+'&v='+urlBurstParam;
+//             commontag.async = true;
+//             commontag.id = 'oiinhousescripts';
+//             var firstcommonScriptTag = document.getElementsByTagName('script')[0];
+//             firstcommonScriptTag.parentNode.insertBefore(commontag, firstcommonScriptTag);
+//         }());
+// }
+// }
+
+
+
+if(document.getElementById("right-native-ad")) {
+                 var slotpos = 'rightInclude';
+                var tcode = 'RB';
+          }else if(document.getElementById("oiNativePromo1")) {
+                var slotpos = 'homeInclude';
+                var tcode = 'HP';
+        }else{
+                var slotpos = 'indexInclude';
+                var tcode = 'IP';
+        }
+        (function() {
+            var host = 'GZEN';
+            var lang = 'en';
+            var randomh = Math.random();
+            var curl = window.location.href;
+            var e = document.getElementsByTagName("script")[0];
+            var d = document.createElement("script");
+            d.src = "https://rss.oneindia.com/common/render-native-ad.js?slotpos=" + slotpos + "&lang=" + lang + "&host=" + host + "&curl=" + curl + "&trackcode=" + tcode + "&v=" + randomh + "";
+            d.type = "text/javascript";
+            d.async = true;
+            d.id = "nativeadjs";
+            e.parentNode.insertBefore(d, e);
+        })(); 
+
+
+
+
+
+        (function(w, d) {
+    var s = d.createElement('script');
+    s.src = '//delivery.adrecover.com/40986/adRecover.js';
+    s.type = 'text/javascript';
+    s.async = true;
+    (d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(s);
+})(window, document);
