@@ -131,16 +131,33 @@
             <div class="card-body">
               <h3 class="card-title font-weight-bold">Login</h3>
               <!--LOGIN FORM STARTS-->
-              <form novalidate>
+              <form class="row g-3 needs-validation" method="post" action="#" novalidate>
                 <div class="mb-3">
                   <label for="userEmail" class="form-label">Email address: </label>
-                  <input type="email" name="email" class="form-control" id="userEmail"placeholder="abc@abc.com" aria-describedby="emailHelp">
+                  <input type="email" name="email" class="form-control" id="userEmail"
+                  placeholder="abc@abc.com" aria-describedby="emailHelp" required >
                   <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                  <div class="valid-feedback">
+                    <i class="far text-success fa-thumbs-up"></i> Looks good!
+                  </div>
+
+                  <div class="invalid-feedback">
+                    <i class="fas text-danger fa-exclamation-circle"></i> Invalid E-mail
+                  </div>
+
                 </div>
                 <div class="mb-3">
                   <label for="userPassword1" class="form-label">Password: </label>
-                  <input type="password" class="form-control" name="password" placeholder="******" id="userPassword1" aria-describedby="passwordHelp">
+                  <input type="password" class="form-control" name="password" placeholder="******" 
+                  id="userPassword1" aria-describedby="passwordHelp" required minlength="6">
                   <div id="passwordHelp" class="form-text">Password must be atleast 6 characters.</div>
+                  <div class="valid-feedback">
+                    <i class="far text-success fa-thumbs-up"></i> Looks good!
+                  </div>
+
+                  <div class="invalid-feedback">
+                    <i class="fas text-danger fa-exclamation-circle"></i> Password requirement does not match
+                  </div>
                 </div>
               
                 <button type="submit" class="btn btn-warning w-100 shadow rounded">Sign in</button>
@@ -178,5 +195,27 @@
     -->
     <!--CUSTOM JAVASCRIPT-->
     <script src="js/custom.js"></script>
+
+    <script>
+        (function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+    </script>
   </body>
 </html>

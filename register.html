@@ -102,7 +102,7 @@
                     <div class="dropdown-menu px-3" aria-labelledby="userAccount">
                         <div class="d-flex flex-column justify-content-center">
                         <a href="#" class="btn btn-warning w-70 btn-sm font-weight-bold">Sign in</a>
-                        <p>New Customer? <a href="#">Register Here</a></p>
+                        <p>New Customer? <a href="register.html">Register Here</a></p>
                     </div>
                 </div>
                   </li>
@@ -131,27 +131,64 @@
             <div class="card-body">
               <h3 class="card-title font-weight-bold">Register</h3>
               <!--Register FORM STARTS-->
-              <form novalidate>
+              <form class="needs-validation" method="post" action="#" novalidate>
                 <div class="mb-3">
                     <label for="userName" class="form-label">User Name: </label>
-                    <input type="text" name="name" class="form-control" id="userName" placeholder="username" >
+                    <input type="text" name="name" class="form-control" id="userName"
+                     placeholder="username" required minlength="10">
+                     <div id="emailHelp" class="form-text">Username must be of 10 characters.</div>
+                    <div class="valid-feedback">
+                        <i class="far text-success fa-thumbs-up"></i> Looks good!
+                      </div>
+    
+                      <div class="invalid-feedback">
+                        <i class="fas text-danger fa-exclamation-circle"></i> Invalid username
+                      </div>
+    
                   </div>
 
                 <div class="mb-3">
                   <label for="userEmail" class="form-label">Email address: </label>
-                  <input type="email" name="email" class="form-control" id="userEmail"placeholder="abc@abc.com" aria-describedby="emailHelp">
+                  <input type="email" name="email" class="form-control" id="userEmail"placeholder="abc@abc.com" 
+                  aria-describedby="emailHelp" required>
                   <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                  <div class="valid-feedback">
+                    <i class="far text-success fa-thumbs-up"></i> Looks good!
+                  </div>
+
+                  <div class="invalid-feedback">
+                    <i class="fas text-danger fa-exclamation-circle"></i> Invalid E-mail
+                  </div>
+
                 </div>
                 <div class="mb-3">
                   <label for="userPassword1" class="form-label">Password: </label>
-                  <input type="password" class="form-control" name="password" placeholder="******" id="userPassword1" aria-describedby="passwordHelp">
+                  <input type="password" class="form-control" name="password" placeholder="******" 
+                  id="userPassword1" aria-describedby="passwordHelp" required minlength="6">
                   <div id="passwordHelp" class="form-text">Password must be atleast 6 characters.</div>
+
+                  <div class="valid-feedback">
+                    <i class="far text-success fa-thumbs-up"></i> Looks good!
+                  </div>
+
+                  <div class="invalid-feedback">
+                    <i class="fas text-danger fa-exclamation-circle"></i> Invalid Password
+                  </div>
+
                 </div>
               
                 <div class="mb-3">
                     <label for="userPassword2" class="form-label">Confirm Password: </label>
-                    <input type="password" class="form-control" name="password2" placeholder="******" id="userPassword2" aria-describedby="passwordHelp2">
+                    <input type="password" class="form-control" name="password2" placeholder="******" 
+                    id="userPassword2" aria-describedby="passwordHelp2" required minlength="6">
                     <div id="passwordHelp2" class="form-text">Password must match .</div>
+                    <div class="valid-feedback">
+                        <i class="far text-success fa-thumbs-up"></i> Looks good!
+                      </div>
+    
+                      <div class="invalid-feedback">
+                        <i class="fas text-danger fa-exclamation-circle"></i> Password doesnot match. 
+                      </div>
                   </div>
 
                 <button type="submit" class="btn btn-warning w-100 shadow rounded">Register</button>
@@ -189,5 +226,28 @@
     -->
     <!--CUSTOM JAVASCRIPT-->
     <script src="js/custom.js"></script>
+
+    <script>
+        (function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+    </script>
+
   </body>
 </html>
